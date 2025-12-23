@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(nullable = false, length = 20)
@@ -37,5 +36,6 @@ public class User {
     private LocalDateTime updatedDate;
 
     @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 }

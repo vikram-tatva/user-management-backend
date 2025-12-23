@@ -1,0 +1,72 @@
+package com.demoproj.user_management.services.impl;
+
+import com.demoproj.user_management.DTOs.UserRequestDTO;
+import com.demoproj.user_management.DTOs.UserResponseDTO;
+import com.demoproj.user_management.entities.Role;
+import com.demoproj.user_management.entities.User;
+import com.demoproj.user_management.exceptions.ResourceNotFoundException;
+import com.demoproj.user_management.repositories.UserRepository;
+import com.demoproj.user_management.services.RoleService;
+import com.demoproj.user_management.services.UserService;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Service
+@AllArgsConstructor
+public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+    private final RoleService roleService;
+    private final ModelMapper modelMapper;
+
+    @Override
+    public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
+        User user = modelMapper.map(userRequestDTO, User.class);
+        Role role = modelMapper.map(roleService.getRoleById(userRequestDTO.getRoleId()), Role.class);
+        user.setRole(role);
+        user.setCreatedDate(LocalDateTime.now());
+        user.setUpdatedDate(LocalDateTime.now());
+        user.setId(UUID.randomUUID().toString());
+        userRepository.save(user);
+        return modelMapper.map(user, UserResponseDTO.class);
+    }
+
+    @Override
+    public UserResponseDTO updateUser(String userId, UserRequestDTO userRequestDTO) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found by userId: " + userId));
+        user.setUpdatedDate(LocalDateTime.now());
+        modelMapper.map(userRequestDTO, user);
+        return modelMapper.map(userRepository.save(user), UserResponseDTO.class);
+    }
+
+    @Override
+    public List<UserResponseDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users
+                .stream()
+                .map(user -> modelMapper.map(user, UserResponseDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserResponseDTO getUserById(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found by userId: " + userId));
+        return modelMapper.map(user, UserResponseDTO.class);
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+        if(!userRepository.existsById(userId)) {
+            throw new ResourceNotFoundException("User not found by userId: " + userId);
+        }
+
+        userRepository.deleteById(userId);
+    }
+}
