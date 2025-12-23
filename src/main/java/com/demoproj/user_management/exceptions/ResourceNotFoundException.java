@@ -6,6 +6,6 @@ public class ResourceNotFoundException extends RuntimeException {
     }
 
     public ResourceNotFoundException(){
-        super("Role not found!");
+        super("Resource not found!");
     }
 }

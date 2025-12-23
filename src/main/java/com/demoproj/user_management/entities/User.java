@@ -1,5 +1,6 @@
 package com.demoproj.user_management.entities;
 
+import com.demoproj.user_management.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -35,7 +36,7 @@ public class User {
 
     private LocalDateTime updatedDate;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role;
 }

@@ -1,5 +1,6 @@
 package com.demoproj.user_management.DTOs;
 
+import com.demoproj.user_management.enums.UserRole;
 import lombok.Data;
 
 @Data
@@ -10,5 +11,5 @@ public class UserResponseDTO {
     private String email;
     private String mobile;
     private String password;
-    private RoleDTO role;
+    private UserRole role;
 }

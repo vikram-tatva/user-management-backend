@@ -2,11 +2,9 @@ package com.demoproj.user_management.services.impl;
 
 import com.demoproj.user_management.DTOs.UserRequestDTO;
 import com.demoproj.user_management.DTOs.UserResponseDTO;
-import com.demoproj.user_management.entities.Role;
 import com.demoproj.user_management.entities.User;
 import com.demoproj.user_management.exceptions.ResourceNotFoundException;
 import com.demoproj.user_management.repositories.UserRepository;
-import com.demoproj.user_management.services.RoleService;
 import com.demoproj.user_management.services.UserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,14 +19,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final RoleService roleService;
     private final ModelMapper modelMapper;
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
         User user = modelMapper.map(userRequestDTO, User.class);
-        Role role = modelMapper.map(roleService.getRoleById(userRequestDTO.getRoleId()), Role.class);
-        user.setRole(role);
         user.setCreatedDate(LocalDateTime.now());
         user.setUpdatedDate(LocalDateTime.now());
         user.setId(UUID.randomUUID().toString());
