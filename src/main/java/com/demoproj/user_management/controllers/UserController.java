@@ -16,11 +16,11 @@ import java.util.List;
 public class UserController {
     private final UserService  userService;
 
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userRequestDTO) {
+    @GetMapping
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(userService.createUser(userRequestDTO));
+                .status(HttpStatus.OK)
+                .body(userService.getAllUsers());
     }
 
     @PutMapping("/{id}")
@@ -30,25 +30,10 @@ public class UserController {
                 .body(userService.updateUser(id, userRequestDTO));
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userService.getAllUsers());
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable String id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.getUserById(id));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable String id) {
-        userService.deleteUser(id);
-        return  ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build();
     }
 }
