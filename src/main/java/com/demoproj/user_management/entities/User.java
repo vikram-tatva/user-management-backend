@@ -29,6 +29,9 @@ public class User {
     @Column(nullable = false, length = 20, unique = true)
     private String mobile;
 
+    @Column(nullable = false, length = 50, unique = true)
+    private String username;
+
     @Column(nullable = false, length = 100)
     private String password;
 
