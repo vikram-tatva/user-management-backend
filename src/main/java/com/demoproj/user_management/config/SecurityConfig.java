@@ -1,5 +1,6 @@
 package com.demoproj.user_management.config;
 
+import com.demoproj.user_management.enums.UserRole;
 import com.demoproj.user_management.filters.JwtAuthFilter;
 import com.demoproj.user_management.services.impl.CustomeUserDetailsService;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,8 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("auth/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
+                        .requestMatchers("/user/**").hasAnyRole(UserRole.USER.name(), UserRole.ADMIN.name())
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
