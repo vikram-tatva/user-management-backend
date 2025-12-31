@@ -19,6 +19,19 @@ public class GlobalExceptionHandler {
         map.put("success",  false);
         map.put("status", HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(map);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, Object>> handelRuntimeException(RuntimeException ex){
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", ex.getMessage());
+        map.put("success",  false);
+        map.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(map);
     }
 }
