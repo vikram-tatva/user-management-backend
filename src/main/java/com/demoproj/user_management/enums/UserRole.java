@@ -6,8 +6,8 @@ import java.util.Set;
 
 @Getter
 public enum UserRole {
-    ADMIN(Set.of(Permissions.CREATE, Permissions.READ, Permissions.UPDATE, Permissions.DELETE)),
-    USER(Set.of(Permissions.READ, Permissions.UPDATE));
+    ADMIN(Set.of(Permissions.USER_CREATE, Permissions.USER_READ, Permissions.USER_UPDATE, Permissions.USER_DELETE)),
+    USER(Set.of(Permissions.USER_READ, Permissions.USER_UPDATE));
 
     private final Set<Permissions> permissions;
 

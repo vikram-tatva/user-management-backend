@@ -6,6 +6,7 @@ import com.demoproj.user_management.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(USER_UPDATE)")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable String id, @RequestBody UserRequestDTO userRequestDTO) {
         return  ResponseEntity
                 .status(HttpStatus.OK)
@@ -31,6 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(USER_GET)")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable String id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
