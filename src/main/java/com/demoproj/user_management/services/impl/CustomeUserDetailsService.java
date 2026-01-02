@@ -2,7 +2,6 @@ package com.demoproj.user_management.services.impl;
 
 import com.demoproj.user_management.entities.User;
 import com.demoproj.user_management.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,8 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomeUserDetailsService implements UserDetailsService {
@@ -25,8 +25,12 @@ public class CustomeUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUsername(username).orElseThrow(() ->
                 new  UsernameNotFoundException("User not found with username: " + username));
 
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
+
+        grantedAuthorities.addAll(user.getRole().getPermissions().stream()
+                .map(permission -> new SimpleGrantedAuthority(permission.name()))
+                .collect(Collectors.toSet()));
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
