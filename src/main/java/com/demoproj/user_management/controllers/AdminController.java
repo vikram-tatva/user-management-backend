@@ -3,6 +3,7 @@ package com.demoproj.user_management.controllers;
 import com.demoproj.user_management.DTOs.UserRequestDTO;
 import com.demoproj.user_management.DTOs.UserResponseDTO;
 import com.demoproj.user_management.services.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class AdminController {
 
     @PostMapping("/user")
     @PreAuthorize("hasAuthority('USER_CREATE')")
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userRequestDTO) {
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.createUser(userRequestDTO));
