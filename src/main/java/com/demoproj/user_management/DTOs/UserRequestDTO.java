@@ -20,7 +20,6 @@ public class UserRequestDTO {
     private String email;
 
     @NotBlank(message = "Mobile is required.")
-    @Size(max = 15, message = "Mobile number should ne less then 15 character.")
     @Pattern(
             regexp = "^\\+?[1-9][0-9]{7,14}$",
             message = "Mobile must with start with country code."
@@ -32,9 +31,9 @@ public class UserRequestDTO {
     private String username;
 
     @NotBlank(message = "Password is required.")
-    @Size(min = 8, max = 12, message = "Password should be more then 8 character and less then 12 character.")
+    @Size(min = 8, max = 12, message = "Password must between 8 and 12 character.")
     private String password;
 
-    @NotBlank(message = "Role is required.")
+    @NotNull(message = "Role is required.")
     private UserRole role;
 }
