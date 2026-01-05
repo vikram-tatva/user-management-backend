@@ -12,3 +12,13 @@ spring:
     hibernate:
       ddl-auto: update
       show-sql: true
+#  security:
+#    user:
+#      name: admin
+#      password: admin@123
+
+  #Convert blank String to null
+  jackson:
+    deserialization:
+      accept-empty-string-as-null-object: true
+
