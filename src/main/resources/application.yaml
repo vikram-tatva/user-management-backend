@@ -10,14 +10,6 @@ token:
 spring:
   application:
     name: user-management
-  datasource:
-    url: jdbc:mysql://localhost:3306/usermanagment
-    username: root
-    password: tatva@123
-  jpa:
-    hibernate:
-      ddl-auto: update
-      show-sql: true
 #  security:
 #    user:
 #      name: admin
