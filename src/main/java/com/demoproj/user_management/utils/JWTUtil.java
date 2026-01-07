@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -14,13 +16,15 @@ import java.util.Date;
 public class JWTUtil {
     private final String SECRET_KEY = "thisismysecretkeyforgeneratingjwttokern+key";
     private final SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
-    private final long EXPIRATION_TIME = 30*60*1000; //30 min
+
+    @Autowired
+    private TokenUtil tokenUtil;
 
     public String generateToken(String username){
         return  Jwts.builder()
                         .setSubject(username)
                         .setIssuedAt(new Date())
-                        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                        .setExpiration(new Date(System.currentTimeMillis() + tokenUtil.getAccess().getExpire_in_ms()))
                         .signWith(secretKey, SignatureAlgorithm.HS256)
                         .compact();
     }

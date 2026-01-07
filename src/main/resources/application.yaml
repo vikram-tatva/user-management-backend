@@ -1,17 +1,14 @@
-server:
-  port: 85
+token:
+  access:
+    expire_in_ms: 1800000
+  refresh:
+    expire_in_ms: 14400000
 
 spring:
   application:
     name: user-management
-  datasource:
-    url: jdbc:mysql://localhost:3306/usermanagment
-    username: root
-    password: tatva@123
-  jpa:
-    hibernate:
-      ddl-auto: update
-      show-sql: true
+#  profiles:
+#    default: dev
 #  security:
 #    user:
 #      name: admin

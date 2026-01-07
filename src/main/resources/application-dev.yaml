@@ -1,0 +1,12 @@
+server:
+  port: 85
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/usermanagment
+    username: root
+    password: tatva@123
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true

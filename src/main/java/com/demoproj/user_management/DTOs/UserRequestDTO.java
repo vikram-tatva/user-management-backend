@@ -7,33 +7,33 @@ import org.hibernate.validator.constraints.Range;
 
 @Data
 public class UserRequestDTO {
-    @NotBlank(message = "First name is required.")
-    @Size(max = 20, message = "First name should be less then 20 character.")
+    @NotBlank(message = "First name is required")
+    @Size(max = 20, message = "First name should be less then 20 character")
     private String firstName;
 
-    @Size(max = 20, message = "Last name should be less then 20 character.")
+    @Size(max = 20, message = "Last name should be less then 20 character")
     private String lastName;
 
-    @NotBlank(message = "Email is required.")
-    @Size(max = 50, message = "Email should be less then 50 character.")
-    @Email(message = "Please enter valid email.")
+    @NotBlank(message = "Email is required")
+    @Size(max = 50, message = "Email should be less then 50 character")
+    @Email(message = "Please enter valid email")
     private String email;
 
-    @NotBlank(message = "Mobile is required.")
+    @NotBlank(message = "Mobile is required")
     @Pattern(
             regexp = "^\\+?[1-9][0-9]{7,14}$",
-            message = "Mobile must with start with country code."
+            message = "Mobile must with start with country code"
     )
     private String mobile;
 
-    @NotBlank(message = "Username is required.")
-    @Size(max = 50, message = "Username should be less then 50 character.")
+    @NotBlank(message = "Username is required")
+    @Size(max = 50, message = "Username should be less then 50 character")
     private String username;
 
-    @NotBlank(message = "Password is required.")
-    @Size(min = 8, max = 12, message = "Password must between 8 and 12 character.")
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, max = 12, message = "Password must between 8 and 12 character")
     private String password;
 
-    @NotNull(message = "Role is required.")
+    @NotNull(message = "Role is required")
     private UserRole role;
 }

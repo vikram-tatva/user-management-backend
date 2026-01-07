@@ -8,12 +8,14 @@ import com.demoproj.user_management.exceptions.BusinessRuleException;
 import com.demoproj.user_management.exceptions.ResourceNotFoundException;
 import com.demoproj.user_management.repositories.UserRepository;
 import com.demoproj.user_management.services.UserService;
+import com.demoproj.user_management.utils.UserSpecification;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -70,18 +72,15 @@ public class UserServiceImpl implements UserService {
         sort = Sort.by(Sort.Direction.DESC, "firstName");
 
         if (search.getResultOrder() != null){
-            sort = search.getResultOrder().getOrderDirection().equalsIgnoreCase("ASC")
-                    ? Sort.by(search.getResultOrder().getColumn()).ascending()
-                    : Sort.by(search.getResultOrder().getColumn()).descending();
+            sort = search.getResultOrder().getOrderDirection().equalsIgnoreCase("DESC")
+                    ? Sort.by(search.getResultOrder().getColumn()).descending()
+                    : Sort.by(search.getResultOrder().getColumn()).ascending();
         }
 
         Pageable pageInfo = PageRequest.of(search.getPageNo(), search.getPageSize(),  sort);
+        Specification<User> specification = UserSpecification.build(search.getFilters(), search.getSearch());
 
-        if (search.getSearch() == null || search.getSearch().isEmpty()){
-            users = userRepository.findAll(pageInfo).getContent();
-        } else {
-            users = userRepository.searchUsers(search.getSearch(),  pageInfo);
-        }
+        users = userRepository.findAll(specification, pageInfo).getContent();
 
         return users
                 .stream()
