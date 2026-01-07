@@ -1,6 +1,3 @@
-server:
-  port: 85
-
 token:
   access:
     expire_in_ms: 1800000
