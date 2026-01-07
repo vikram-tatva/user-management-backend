@@ -14,6 +14,7 @@ spec:
     spec:
       containers:
         - name: user-management
-          image: YOUR_DOCKER_USERNAME/user-management:latest
+          image: vikram0dharajiya/usermanagement:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
